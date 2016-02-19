@@ -9,7 +9,7 @@ $(document).ready(function () {
         e.preventDefault();
         if (x < maxFields) { 
             x++;
-            $(wrapper).append('<div style="margin: 5px 0;"><input type="text" name="numeroUnidad" id="numeroUnidad" class="form-control inputShadow" placeholder="Número de Unidad" maxlength="25" /><a href="#" class="btn btn-danger btn-sm removeUnidad" style="float:right;margin-top: -33px;"> - </a></div>');
+            $(wrapper).append('<div style="margin: 5px 0;"><input type="text" name="numeroUnidad" id="numeroUnidad" class="form-control inputShadow" placeholder="(Añade prefijo P- o M-)" maxlength="25" /><a href="#" class="btn btn-danger btn-sm removeUnidad" style="float:right;margin-top: -33px;"> - </a></div>');
         }
     });
 
