@@ -278,13 +278,14 @@
                     alert("res.rows.item(0).cnt: " + res.rows.item(0) + " -- should be 1");
                     
                     $.each(res, function(item) {
-                      alert(item + ": " + item. );
+                      alert(item + ": " + item.item(0));
                     });
 
                 });
 
             }, function(e) {
               alert("ERROR: " + e.message);
+
             });
 
             //window.sqlitePlugin.deleteDatabase({name: "partenovedad.db", location: 1}, successcb, errorcb);
