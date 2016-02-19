@@ -27,6 +27,7 @@
             Aplicación de Control de
             <span style="color: rgba(0, 23, 52, 0.8);font-weight: 600;"> Parte Novedades</span>
           </p>
+          <p id="here"></p>
         </div>
       </div>      
       <div class="container">
@@ -61,17 +62,17 @@
                         </div>
                         <div class="form-group col-xs-6 col-sm-4">
                             <label class="control-label">Bajo Reporte</label>
-                            <input type="text" name="bajoReporte" id="bajoReporte" class="form-control inputShadow" placeholder="Bajo Reporte" maxlength="25" list="BajoReporteList" required />
-                            <datalist id="BajoReporteList">
-                              <option>CENTRAL DE RADIO</option>
-                              <option>UNIDAD</option>
-                              <option>VIA DENUNCIA (089)</option>
-                              <option>VIA DENUNCIA (066)</option>
-                              <option>SUPERVISOR</option>
-                              <option>REPORTANTE</option>
-                              <option>SOBRE RECORRIDO</option>
-                              <option>NO ESPECIFICADO</option>
-                            </datalist>
+                            <select name="bajoReporte" id="bajoReporte" class="form-control inputShadow" required/>
+                              <option value="">BAJO REPORTE</option>
+                              <option value="CENTRAL DE RADIO">CENTRAL DE RADIO</option>
+                              <option value="UNIDAD">UNIDAD</option>
+                              <option value="VIA DENUNCIA (089)">VIA DENUNCIA (089)</option>
+                              <option value="VIA DENUNCIA (066)">VIA DENUNCIA (066)</option>
+                              <option value="SUPERVISOR">SUPERVISOR</option>
+                              <option value="REPORTANTE">REPORTANTE</option>
+                              <option value="SOBRE RECORRIDO">SOBRE RECORRIDO</option>
+                              <option value="NO ESPECIFICADO">NO ESPECIFICADO</option>
+                            </select>
                         </div>
                         <div class="form-group col-xs-6 col-sm-4">
                             <label class="control-label">Se atiende</label>
@@ -267,16 +268,19 @@
             tx.executeSql("INSERT INTO parte_novedad (numIncidente, bajoReporte, atiende, fechaEvento, horaReporte, horaLlegada, calle, numeroIntExt, colonia, calleIzquierda, calleDerecha, nombreReportante, nombrePresunto, reporteManifesta, huboSolucion, reporteAcuerdo, presentaAnte, numeroReporte, numeroInfraccion, matriculaOficial, numeroUnidad, matriculaSuperior) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
               [numIncidente, bajoReporte, atiende, fechaEvento, horaReporte, horaLlegada, calle, numeroIntExt, colonia, calleIzquierda, calleDerecha, nombreReportante, nombrePresunto, reporteManifesta, huboSolucion, reporteAcuerdo, presentaAnte, numeroReporte, numeroInfraccion, matriculaOficial, numeroUnidad, matriculaSuperior], 
               function(tx, res) {
-                alert("insertId: " + res.insertId + " -- probably 1");
-                alert("rowsAffected: " + res.rowsAffected + " -- should be 1");
+                //alert("insertId: " + res.insertId + " -- probably 1");
+                //alert("rowsAffected: " + res.rowsAffected + " -- should be 1");
 
                 tx.executeSql("SELECT * FROM parte_novedad;", 
                   [], 
                   function(tx, res) {
                     alert("res.rows.length: " + res.rows.length + " -- should be 1");
                     alert("res.rows.item(0).cnt: " + res.rows.item(0) + " -- should be 1");
-                    alert(res);
-                    alert(res.rows);
+                    
+                    $.each(res, function(item) {
+                      alert(item + ": " + item. );
+                    });
+
                 });
 
             }, function(e) {
