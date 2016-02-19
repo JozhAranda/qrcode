@@ -277,7 +277,7 @@
                     alert("res.rows.length: " + res.rows.length + " -- should be 1");
                     alert("res.rows.item(0): " + res.rows.item(0) + " -- should be 1");
                     
-                    $.each(res.rows, function(item, val) {
+                    $.each(res.rows.item, function(item, val) {
                       alert(item + ": " + item[val]);
                     });
 
