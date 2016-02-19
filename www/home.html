@@ -217,7 +217,7 @@
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="assets/js/jquery.min.js"></script>
-    <script src="cordova.js" type="text/javascript"></script>
+    <!--script src="cordova.js" type="text/javascript"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/snackbar.min.js"></script>
@@ -228,6 +228,8 @@
 
     <script type="text/javascript" charset="utf-8">
       document.addEventListener("deviceready", onDeviceReady, false);
+
+      var person = {firstName:"John", lastName:"Doe", age:50, eyeColor:"blue"};
 
       function onDeviceReady() {
 
@@ -275,10 +277,10 @@
                   [], 
                   function(tx, res) {
                     alert("res.rows.length: " + res.rows.length + " -- should be 1");
-                    alert("res.rows.item(0).cnt: " + res.rows.item(0) + " -- should be 1");
+                    alert("res.rows.item(0): " + res.rows.item(0) + " -- should be 1");
                     
-                    $.each(res, function(item) {
-                      alert(item + ": " + item.item(0));
+                    $.each(res.rows, function(item, val) {
+                      alert(item + ": " + item[val]);
                     });
 
                 });
