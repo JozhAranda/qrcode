@@ -206,7 +206,7 @@
                   <p>Recuerda haber relatado todos los hechos sucitados antes, durante y despues de la intervención.</p>          
                   <div class="clearfix"></div>
                   <div class="form-group col-xs-4 col-xs-offset-4 text-center">
-                    <button class="btn btn-primary btn-block" id="submitFine" type="submit">
+                    <button class="btn btn-primary btn-block" id="submitParte" type="submit">
                       <img src="assets/img/save.png" width="24" />
                     </button>
                   </div>
@@ -232,31 +232,31 @@
 
       function onDeviceReady() {
 
-        $('#submitFine').on('click touch', function(e) {
+        $('#submitParte').on('click touch', function(event) {
 
-          e.preventDefault();
+          event.preventDefault();
           /**/
-          var numIncidente = $('#numIncidente').val(); 
-          var bajoReporte = $('#bajoReporte').val(); 
-          var atiende = $('#atiende').val(); 
-          var fechaEvento = $('#fechaEvento').val(); 
-          var horaReporte = $('#horaReporte').val(); 
-          var horaLlegada = $('#horaLlegada').val();
-          var calle = $('#calle').val();
-          var numeroIntExt = $('#numeroIntExt').val();
-          var colonia = $('#colonia').val();
-          var calleIzquierda = $('#calleIzquierda').val();
-          var calleDerecha = $('#calleDerecha').val();
-          var nombreReportante = $('#nombreReportante').val();
-          var nombrePresunto = $('#nombrePresunto').val();
-          var reporteManifesta = $('#reporteManifesta').val();
-          var huboSolucion = $('#huboSolucion').val();
-          var reporteAcuerdo = $('#reporteAcuerdo').val();
-          var presentaAnte = $('#presentaAnte').val();
-          var numeroReporte = $('#numeroReporte').val();
-          var numeroInfraccion = $('#numeroInfraccion').val();
-          var matriculaOficial = $('#matriculaOficial').val();
-          var numeroUnidad = $('#numeroUnidad').val();
+          var numIncidente  = $('#numIncidente').val(); 
+          var bajoReporte   = $('#bajoReporte').val(); 
+          var atiende       = $('#atiende').val(); 
+          var fechaEvento   = $('#fechaEvento').val(); 
+          var horaReporte   = $('#horaReporte').val(); 
+          var horaLlegada   = $('#horaLlegada').val();
+          var calle         = $('#calle').val();
+          var numeroIntExt  = $('#numeroIntExt').val();
+          var colonia       = $('#colonia').val();
+          var calleIzquierda    = $('#calleIzquierda').val();
+          var calleDerecha      = $('#calleDerecha').val();
+          var nombreReportante  = $('#nombreReportante').val();
+          var nombrePresunto    = $('#nombrePresunto').val();
+          var reporteManifesta  = $('#reporteManifesta').val();
+          var huboSolucion      = $('#huboSolucion').val();
+          var reporteAcuerdo    = $('#reporteAcuerdo').val();
+          var presentaAnte      = $('#presentaAnte').val();
+          var numeroReporte     = $('#numeroReporte').val();
+          var numeroInfraccion  = $('#numeroInfraccion').val();
+          var matriculaOficial  = $('#matriculaOficial').val();
+          var numeroUnidad      = $('#numeroUnidad').val();
           var matriculaSuperior = $('#matriculaSuperior').val();
           /**/
 
@@ -269,15 +269,11 @@
             tx.executeSql("INSERT INTO parte_novedad (numIncidente, bajoReporte, atiende, fechaEvento, horaReporte, horaLlegada, calle, numeroIntExt, colonia, calleIzquierda, calleDerecha, nombreReportante, nombrePresunto, reporteManifesta, huboSolucion, reporteAcuerdo, presentaAnte, numeroReporte, numeroInfraccion, matriculaOficial, numeroUnidad, matriculaSuperior) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
               [numIncidente, bajoReporte, atiende, fechaEvento, horaReporte, horaLlegada, calle, numeroIntExt, colonia, calleIzquierda, calleDerecha, nombreReportante, nombrePresunto, reporteManifesta, huboSolucion, reporteAcuerdo, presentaAnte, numeroReporte, numeroInfraccion, matriculaOficial, numeroUnidad, matriculaSuperior], 
               function(tx, res) {
-                //alert("insertId: " + res.insertId + " -- probably 1");
-                //alert("rowsAffected: " + res.rowsAffected + " -- should be 1");
-
+                
                 tx.executeSql("SELECT * FROM parte_novedad;", 
                   [], 
                   function(tx, res) {
-                    //alert("res.rows.length: " + res.rows.length + " -- should be 1");
-                    //alert("res.rows.item(0): " + res.rows.item(0) + " -- should be 1");
-              /*****************************/  
+                /*****************************/  
                     var xhr = new XMLHttpRequest();
                     var url = "http://policiatijuana.gob.mx/";
                     xhr.addEventListener('readystatechange', state_change, true);
@@ -290,9 +286,8 @@
 
                         alert("Conectado a internet");
     
-                        for (var i = 0; i < res.rows.length; i++) {
+                        for(var i = 0; i < res.rows.length; i++) {
 
-                          //alert("Row: " + i + " ID: " + res.rows.item(i).id + " Data: " + res.rows.item(i).numIncidente);
                           $.ajax({
                             method: 'POST',
                             url: 'http://joshuaranda.website/sspm/partenovedad/',
@@ -325,24 +320,24 @@
                             cache: false,        
                             beforeSend: function(){ $(".loader").fadeOut("200").css("display", "block"); },
                             success: function(data) {   
-                              $(".loader").css("display", "none"); 
+                              $(".loader").css("display", "none");
                               $.snackbar({
                                 content: "Parte novedad ingresada.", 
                                 timeout: 5000
-                              });  
-                              if(data) { window.sqlitePlugin.deleteDatabase({name: "partenovedad.db", location: 1}, successcb, errorcb); }      
+                              });        
+                              if(data) { window.sqlitePlugin.deleteDatabase({name: "partenovedad.db", location: 1}, successcb, errorcb); } 
                             },
-                            error : function(xhr, textStatus, errorThrown ) {
-                              if (textStatus == 'timeout') {
+                            error: function(xhr, textStatus, errorThrown ) {
+                              if (textStatus === 'timeout') {
                                 this.tryCount++;
-                                if (this.tryCount <= this.retryLimit) {
+                                if (this.tryCount <= 3) {
                                   $.ajax(this);
                                   return;
                                 }            
                                 return;
                               }  
-                              $("#submitSesion").val('Iniciar sesión');       
-                              if (xhr.status == 500) {
+                              $(".loader").css("display", "none");        
+                              if (xhr.status === 500) {
                                 $.snackbar({
                                   content: "Ocurrio un error, no desistas e intentalo nuevamente", 
                                   timeout: 5000
@@ -371,7 +366,6 @@
             }, function(e) {
 
               alert("ERROR: " + e.message);
-
             });
 
             //window.sqlitePlugin.deleteDatabase({name: "partenovedad.db", location: 1}, successcb, errorcb);
