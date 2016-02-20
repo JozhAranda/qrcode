@@ -286,7 +286,7 @@
                     
                     function state_change() {
                        
-                      if (xhr.status >= 200 && xhr.status < 304) {
+                      if (xhr.status === 200) {
 
                         alert("Conectado a internet");
     
@@ -364,10 +364,7 @@
                         alert("No conectado a internet");
 
                       }
-                    } catch (e) {
-                            
-                      alert("No conectado a internet " + e.message);
-                    }
+                    }                  
               /****************************/
                 });
 
