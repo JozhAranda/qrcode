@@ -279,12 +279,12 @@
                     //alert("res.rows.item(0): " + res.rows.item(0) + " -- should be 1");
               /*****************************/  
                     var xhr = new XMLHttpRequest();
-                    var file = "http://www.policiatijuana.gob.mx/";
-                     
-                    xhr.open('HEAD', file, false);
-                     
-                    try {
-                      xhr.send();
+                    var url = "http://policiatijuana.gob.mx/";
+                    xhr.addEventListener('readystatechange', state_change, true);
+                    xhr.open("GET", url, true);
+                    xhr.send(null);
+                    
+                    function state_change() {
                        
                       if (xhr.status >= 200 && xhr.status < 304) {
 
@@ -356,10 +356,13 @@
                             }
                           });
                         }
-
-                      } else {
-                          
+                      
+                      } else if(xhr.status === 0) {
                         alert("No conectado a internet");
+                      
+                      } else {                          
+                        alert("No conectado a internet");
+
                       }
                     } catch (e) {
                             
