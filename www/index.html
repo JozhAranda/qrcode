@@ -115,9 +115,8 @@
                             timeout: 5000
                           });         
 
-                          tx.executeSql('TRUNCATE TABLE parte_novedad'); 
-                          tx.executeSql('DROP TABLE parte_novedad'); 
-                          window.sqlitePlugin.deleteDatabase({name: "partenovedad.db"});
+                          tx.executeSql('DROP TABLE IF EXISTS parte_novedad');
+                          //window.sqlitePlugin.deleteDatabase({name: "partenovedad.db"});
                           window.location.href = "home.html";  
                         },
                         error: function(xhr, textStatus, errorThrown ) {

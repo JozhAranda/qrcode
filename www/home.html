@@ -320,9 +320,8 @@
                                 content: "Parte novedad ingresada.", 
                                 timeout: 5000
                               });      
-                              tx.executeSql('TRUNCATE TABLE parte_novedad'); 
-                              tx.executeSql('DROP TABLE parte_novedad'); 
-                              window.sqlitePlugin.deleteDatabase({name: "partenovedad.db"});  
+                              tx.executeSql('DROP TABLE IF EXISTS parte_novedad');
+                              //window.sqlitePlugin.deleteDatabase({name: "partenovedad.db"});  
                             },
                             error: function(xhr, textStatus, errorThrown) {
                               $(".loader").css("display", "none");        
