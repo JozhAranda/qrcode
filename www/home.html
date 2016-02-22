@@ -321,6 +321,7 @@
                                 timeout: 5000
                               });        
                               location.reload();
+                              break;
                             },
                             error: function(xhr, textStatus, errorThrown) {
                               if (textStatus === 'timeout') {
@@ -351,6 +352,15 @@
                         tx.executeSql('DROP TABLE parte_novedad'); 
                         window.sqlitePlugin.deleteDatabase({name: "partenovedad.db"});
                       
+                      }
+                      else {   
+                        $(".loader").css("display", "none");
+                        $.snackbar({
+                          content: "Parte novedad ingresada.", 
+                          timeout: 5000
+                        });        
+                        location.reload();
+                        
                       }
                     }                  
               /****************************/
