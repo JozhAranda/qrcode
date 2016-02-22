@@ -342,7 +342,7 @@
                                 }); 
                               } else {
                                 $.snackbar({
-                                  content: "Ocurrio un error, posiblemente el servirdor no responda", 
+                                  content: "Ocurrio un error, posiblemente el servidor no responde", 
                                   timeout: 5000
                                 }); 
                               }
@@ -420,9 +420,6 @@
                           content: "Parte novedad ingresada.", 
                           timeout: 5000
                         });         
-                        tx.executeSql('TRUNCATE TABLE parte_novedad'); 
-                        window.sqlitePlugin.deleteDatabase({name: "partenovedad.db"});
-                        location.reload();
                       },
                       error: function(xhr, textStatus, errorThrown ) {
                         if (textStatus === 'timeout') {
@@ -441,7 +438,7 @@
                           }); 
                         } else {
                           $.snackbar({
-                            content: "Ocurrio un error, posiblemente el servirdor no responda", 
+                            content: "Ocurrio un error, posiblemente el servidor no responde", 
                             timeout: 5000
                           }); 
                         }
@@ -451,7 +448,11 @@
                 
                 }
               }
-            });
+            });          
+            tx.executeSql('TRUNCATE TABLE parte_novedad'); 
+            tx.executeSql('DROP TABLE parte_novedad'); 
+            window.sqlitePlugin.deleteDatabase({name: "partenovedad.db"});
+            location.reload();
           });
       /******************************************/
 
