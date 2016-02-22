@@ -316,14 +316,10 @@
                             beforeSend: function(){ $(".loader").fadeOut("200").css("display", "block"); },
                             success: function(data) {   
                               $(".loader").css("display", "none");
-                              tx.executeSql('TRUNCATE TABLE parte_novedad'); 
-                              tx.executeSql('DROP TABLE parte_novedad'); 
-                              window.sqlitePlugin.deleteDatabase({name: "partenovedad.db"});
                               $.snackbar({
                                 content: "Parte novedad ingresada.", 
                                 timeout: 5000
                               });        
-                              location.reload();
                             },
                             error: function(xhr, textStatus, errorThrown) {
                               if (textStatus === 'timeout') {
@@ -349,7 +345,10 @@
                             }
                           });
                         }
-                      
+                
+                        tx.executeSql('TRUNCATE TABLE parte_novedad'); 
+                        tx.executeSql('DROP TABLE parte_novedad'); 
+                        window.sqlitePlugin.deleteDatabase({name: "partenovedad.db"});
                       } else {   
                         $(".loader").css("display", "none");
                         $.snackbar({
@@ -359,6 +358,8 @@
                         location.reload();
                         
                       }
+                      
+                      location.reload();
                     }                  
               /****************************/
                 });
