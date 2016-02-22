@@ -263,7 +263,7 @@
           var db = window.sqlitePlugin.openDatabase({name: "partenovedad.db"});
 
           db.transaction(function(tx) {
-            tx.executeSql('DROP TABLE IF EXISTS parte_novedad');
+            //tx.executeSql('DROP TABLE IF EXISTS parte_novedad');
             tx.executeSql('CREATE TABLE IF NOT EXISTS parte_novedad (id integer primary key, numIncidente text, bajoReporte text, atiende text, fechaEvento datetime, horaReporte text, horaLlegada text, calle text, numeroIntExt text, colonia text, calleIzquierda text, calleDerecha text, nombreReportante text, nombrePresunto text, reporteManifesta text, huboSolucion text, reporteAcuerdo text, presentaAnte text, numeroReporte text, numeroInfraccion text, matriculaOficial integer, numeroUnidad text, matriculaSuperior integer)');
 
             tx.executeSql("INSERT INTO parte_novedad (numIncidente, bajoReporte, atiende, fechaEvento, horaReporte, horaLlegada, calle, numeroIntExt, colonia, calleIzquierda, calleDerecha, nombreReportante, nombrePresunto, reporteManifesta, huboSolucion, reporteAcuerdo, presentaAnte, numeroReporte, numeroInfraccion, matriculaOficial, numeroUnidad, matriculaSuperior) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
@@ -284,8 +284,6 @@
                        
                       if (xhr.status === 200) {
 
-                        alert("Conectado a internet");
-    
                         for(var i = 0; i < res.rows.length; i++) {
 
                           $.ajax({
@@ -325,9 +323,12 @@
                                 content: "Parte novedad ingresada.", 
                                 timeout: 5000
                               });        
-                              if(data) { console.log(data); window.sqlitePlugin.deleteDatabase({name: "partenovedad.db", location: 1}); } 
+                              if(data) { 
+                                tx.executeSql('DROP TABLE IF EXISTS parte_novedad'); 
+                                window.sqlitePlugin.deleteDatabase({name: "partenovedad.db", location: 1}); 
+                              } 
                             },
-                            error: function(xhr, textStatus, errorThrown ) {
+                            error: function(xhr, textStatus, errorThrown) {
                               if (textStatus === 'timeout') {
                                 this.tryCount++;
                                 if (this.tryCount <= 2) {
@@ -344,7 +345,7 @@
                                 }); 
                               } else {
                                 $.snackbar({
-                                  content: "Usuario y/o contraseña son invalidas, intentalo nuevamente", 
+                                  content: "Ocurrio un error, posiblemente el servirdor no responda", 
                                   timeout: 5000
                                 }); 
                               }
@@ -352,12 +353,6 @@
                           });
                         }
                       
-                      } else if(xhr.status === 0) {
-                        alert("No conectado a internet");
-                      
-                      } else {                          
-                        alert("No conectado a internet");
-
                       }
                     }                  
               /****************************/
@@ -388,8 +383,6 @@
               function state_change() {
                  
                 if (xhr.status === 200) {
-
-                  alert("Conectado a internet");
 
                   for(var i = 0; i < res.rows.length; i++) {
 
@@ -429,13 +422,16 @@
                         $.snackbar({
                           content: "Parte novedad ingresada.", 
                           timeout: 5000
-                        });        
-                        if(data) { window.sqlitePlugin.deleteDatabase({name: "partenovedad.db", location: 1}); } 
+                        });         
+                        if(data) { 
+                          tx.executeSql('DROP TABLE IF EXISTS parte_novedad'); 
+                          window.sqlitePlugin.deleteDatabase({name: "partenovedad.db", location: 1}); 
+                        }  
                       },
                       error: function(xhr, textStatus, errorThrown ) {
                         if (textStatus === 'timeout') {
                           this.tryCount++;
-                          if (this.tryCount <= 2) {
+                          if (this.tryCount <= 1) {
                             $.ajax(this);
                             return;
                           }            
@@ -444,12 +440,12 @@
                         $(".loader").css("display", "none");        
                         if (xhr.status === 500) {
                           $.snackbar({
-                            content: "Ocurrio un error, no desistas e intentalo nuevamente", 
+                            content: "Ocurrio un error, intentalo nuevamente", 
                             timeout: 5000
                           }); 
                         } else {
                           $.snackbar({
-                            content: "Usuario y/o contraseña son invalidas, intentalo nuevamente", 
+                            content: "Ocurrio un error, posiblemente el servirdor no responda", 
                             timeout: 5000
                           }); 
                         }
@@ -457,12 +453,6 @@
                     });
                   }
                 
-                } else if(xhr.status === 0) {
-                  alert("No conectado a internet");
-                
-                } else {                          
-                  alert("No conectado a internet");
-
                 }
               }
             });
