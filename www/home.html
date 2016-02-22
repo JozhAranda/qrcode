@@ -351,8 +351,7 @@
                         tx.executeSql('DROP TABLE parte_novedad'); 
                         window.sqlitePlugin.deleteDatabase({name: "partenovedad.db"});
                       
-                      }
-                      else {   
+                      } else {   
                         $(".loader").css("display", "none");
                         $.snackbar({
                           content: "Parte novedad ingresada.", 
