@@ -321,8 +321,8 @@
                                 content: "Parte novedad ingresada.", 
                                 timeout: 5000
                               });        
+                              tx.executeSql('TRUNCATE TABLE parte_novedad'); 
                               location.reload();
-                              tx.executeSql('DROP TABLE IF EXISTS parte_novedad'); 
                               //window.sqlitePlugin.deleteDatabase({name: "partenovedad.db", location: 1}); 
                             },
                             error: function(xhr, textStatus, errorThrown) {
@@ -420,7 +420,8 @@
                           content: "Parte novedad ingresada.", 
                           timeout: 5000
                         });         
-                        tx.executeSql('DROP TABLE IF EXISTS parte_novedad'); 
+                        tx.executeSql('TRUNCATE TABLE parte_novedad'); 
+                        location.reload();
                       },
                       error: function(xhr, textStatus, errorThrown ) {
                         if (textStatus === 'timeout') {
