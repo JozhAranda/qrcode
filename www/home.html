@@ -263,7 +263,7 @@
           var db = window.sqlitePlugin.openDatabase({name: "partenovedad.db"});
 
           db.transaction(function(tx) {
-            tx.executeSql('DROP TABLE IF EXISTS parte_novedad');
+            //tx.executeSql('DROP TABLE IF EXISTS parte_novedad');
             tx.executeSql('CREATE TABLE IF NOT EXISTS parte_novedad (id integer primary key, numIncidente text, bajoReporte text, atiende text, fechaEvento datetime, horaReporte text, horaLlegada text, calle text, numeroIntExt text, colonia text, calleIzquierda text, calleDerecha text, nombreReportante text, nombrePresunto text, reporteManifesta text, huboSolucion text, reporteAcuerdo text, presentaAnte text, numeroReporte text, numeroInfraccion text, matriculaOficial integer, numeroUnidad text, matriculaSuperior integer)');
 
             tx.executeSql("INSERT INTO parte_novedad (numIncidente, bajoReporte, atiende, fechaEvento, horaReporte, horaLlegada, calle, numeroIntExt, colonia, calleIzquierda, calleDerecha, nombreReportante, nombrePresunto, reporteManifesta, huboSolucion, reporteAcuerdo, presentaAnte, numeroReporte, numeroInfraccion, matriculaOficial, numeroUnidad, matriculaSuperior) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
@@ -330,7 +330,7 @@
                             error: function(xhr, textStatus, errorThrown ) {
                               if (textStatus === 'timeout') {
                                 this.tryCount++;
-                                if (this.tryCount <= 3) {
+                                if (this.tryCount <= 2) {
                                   $.ajax(this);
                                   return;
                                 }            
@@ -368,11 +368,109 @@
               alert("ERROR: " + e.message);
             });
 
-            //window.sqlitePlugin.deleteDatabase({name: "partenovedad.db", location: 1}, successcb, errorcb);
-
           });
           
         });
+
+      /*******************************************/
+        var db = window.sqlitePlugin.openDatabase({name: "partenovedad.db"});
+
+        db.transaction(function(tx) {
+          //tx.executeSql('DROP TABLE IF EXISTS parte_novedad');
+          tx.executeSql('CREATE TABLE IF NOT EXISTS parte_novedad (id integer primary key, numIncidente text, bajoReporte text, atiende text, fechaEvento datetime, horaReporte text, horaLlegada text, calle text, numeroIntExt text, colonia text, calleIzquierda text, calleDerecha text, nombreReportante text, nombrePresunto text, reporteManifesta text, huboSolucion text, reporteAcuerdo text, presentaAnte text, numeroReporte text, numeroInfraccion text, matriculaOficial integer, numeroUnidad text, matriculaSuperior integer)');
+
+          tx.executeSql("SELECT * FROM parte_novedad;", 
+            [], 
+            function(tx, res) { 
+              var xhr = new XMLHttpRequest();
+              var url = "http://policiatijuana.gob.mx/";
+              xhr.addEventListener('readystatechange', state_change, true);
+              xhr.open("GET", url, true);
+              xhr.send(null);
+              
+              function state_change() {
+                 
+                if (xhr.status === 200) {
+
+                  alert("Conectado a internet");
+
+                  for(var i = 0; i < res.rows.length; i++) {
+
+                    $.ajax({
+                      method: 'POST',
+                      url: 'http://joshuaranda.website/sspm/partenovedad/',
+                      async: true,
+                      crossDomain: true,
+                      data: { 
+                        numIncidente: res.rows.item(i).numIncidente, 
+                        bajoReporte : res.rows.item(i).bajoReporte, 
+                        atiende     : res.rows.item(i).atiende, 
+                        fechaEvento : res.rows.item(i).fechaEvento, 
+                        horaReporte : res.rows.item(i).horaReporte, 
+                        horaLlegada : res.rows.item(i).horaLlegada, 
+                        calle       : res.rows.item(i).calle, 
+                        numeroIntExt: res.rows.item(i).numeroIntExt, 
+                        colonia     : res.rows.item(i).colonia, 
+                        calleIzquierda: res.rows.item(i).calleIzquierda, 
+                        calleDerecha  : res.rows.item(i).calleDerecha, 
+                        nombreReportante: res.rows.item(i).nombreReportante, 
+                        nombrePresunto  : res.rows.item(i).nombrePresunto, 
+                        reporteManifesta: res.rows.item(i).reporteManifesta, 
+                        huboSolucion    : res.rows.item(i).huboSolucion, 
+                        reporteAcuerdo  : res.rows.item(i).reporteAcuerdo, 
+                        presentaAnte    : res.rows.item(i).presentaAnte, 
+                        numeroReporte   : res.rows.item(i).numeroReporte, 
+                        numeroInfraccion: res.rows.item(i).numeroInfraccion, 
+                        matriculaOficial: res.rows.item(i).matriculaOficial, 
+                        numeroUnidad    : res.rows.item(i).numeroUnidad, 
+                        matriculaSuperior: res.rows.item(i).matriculaOficial
+                      },
+                      cache: false,        
+                      beforeSend: function(){ $(".loader").fadeOut("200").css("display", "block"); },
+                      success: function(data) {   
+                        $(".loader").css("display", "none");
+                        $.snackbar({
+                          content: "Parte novedad ingresada.", 
+                          timeout: 5000
+                        });        
+                        if(data) { window.sqlitePlugin.deleteDatabase({name: "partenovedad.db", location: 1}, successcb, errorcb); } 
+                      },
+                      error: function(xhr, textStatus, errorThrown ) {
+                        if (textStatus === 'timeout') {
+                          this.tryCount++;
+                          if (this.tryCount <= 2) {
+                            $.ajax(this);
+                            return;
+                          }            
+                          return;
+                        }  
+                        $(".loader").css("display", "none");        
+                        if (xhr.status === 500) {
+                          $.snackbar({
+                            content: "Ocurrio un error, no desistas e intentalo nuevamente", 
+                            timeout: 5000
+                          }); 
+                        } else {
+                          $.snackbar({
+                            content: "Usuario y/o contraseña son invalidas, intentalo nuevamente", 
+                            timeout: 5000
+                          }); 
+                        }
+                      }
+                    });
+                  }
+                
+                } else if(xhr.status === 0) {
+                  alert("No conectado a internet");
+                
+                } else {                          
+                  alert("No conectado a internet");
+
+                }
+              }
+            });
+          }
+      /******************************************/
 
       }
     </script>
