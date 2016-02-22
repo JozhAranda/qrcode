@@ -322,14 +322,6 @@
                               });        
                             },
                             error: function(xhr, textStatus, errorThrown) {
-                              if (textStatus === 'timeout') {
-                                this.tryCount++;
-                                if (this.tryCount <= 2) {
-                                  $.ajax(this);
-                                  return;
-                                }            
-                                return;
-                              }  
                               $(".loader").css("display", "none");        
                               if (xhr.status === 500) {
                                 $.snackbar({
@@ -358,7 +350,7 @@
                         location.reload();
                         
                       }
-                      
+
                       location.reload();
                     }                  
               /****************************/
