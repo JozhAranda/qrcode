@@ -32,12 +32,12 @@
         </div>
       </div>      
       <div class="container">
-        <div class="col-xs-6 col-xs-offset-3" style="margin-top: 40px;">
+        <div class="col-xs-4 col-xs-offset-4" style="margin-top: 40px;">
           <button class="btn btn-info btn-block" id="scan">Scan</button>
           <br/><br/>
           <button class="btn btn-success btn-block" id="display">Display Scanned Data</button>
         </div>
-        <div class="col-xs-10 col-xs-offset-1" style="margin-top: 40px;">
+        <div class="col-xs-8 col-xs-offset-2" style="margin-top: 40px;">
           <div class="table-responsive">
             <table class="table table-hover table-border" id="qrTable">
               <thead>
@@ -71,7 +71,7 @@
             function (result) {
               if(!result.cancelled) {
                 if(result.format == "QR_CODE") {
-                  navigator.notification.prompt("Please enter name of data", function(input) {
+                  navigator.notification.prompt("#Boleta o Identificador", function(input) {
                     var name = input.input1;
                     var value = result.text;
 
@@ -104,7 +104,7 @@
           var html = "";
 
           for(var count = 0; count < data.length; count++) {
-            html = html + "<tr><td>" + data[count][0] + "</td><td><a href='javascript:openURL(\"" + data[count][1] + "\")'>" + data[count][1] + "</a></td></tr>";
+            html = html + "<tr><td>" + data[count][0] + "</td><td><a href='javascript:openURL(\"" + data[count][1] + "?user=Jorge&pass=Patito1234" +"\")' class='btn btn-primary btn-xs'>" + data[count][1] + "</a></td></tr>";
           }
 
           $("#qrTable tbody").append(html).closest("#qrTable").table("refresh").trigger("create");
