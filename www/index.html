@@ -3,146 +3,74 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">    
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/snackbar.min.css" />
+    <link rel="stylesheet" href="assets/css/wrap.css" />
+    <link rel="stylesheet" href="assets/css/mobile.css" />
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="assets/css/snackbar.min.css" />
-    <link rel="stylesheet" href="assets/css/home.css" />
-    <link rel="stylesheet" href="assets/css/mobile.css" />
     <style>
+      body {
+        background: #ECECEC url('assets/img/bg.jpg') no-repeat bottom right fixed;
+        background-position-y: 20px;
+      }
       .snackbar {
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(0, 23, 52, 0.8);
         padding: 7px;
         color: #fff;
-      } 
-      .clearfix {
-        margin: 80px 0;
-        padding: 40px;
+      }
+      .inputShadow:focus {
+        -webkit-box-shadow: inset 0 -2px 0 rgba(0, 23, 52, 0.9) !important;
+        box-shadow: inset 0 -2px 0 rgba(0, 23, 52, 0.9) !important;
+        background-color: #fafafa !important;
       }
     </style>
   </head>
 
   <body onload="init()">
 
-    <div class="row">
-      <div class="col-xs-12 headerLogo">
-        <div class="col-xs-6">
-          <img src="assets/img/sspm_logo.png" class="img img-responsive headerImg" alt="logo" />
+    <div id="launcherPage" data-role="page"></div>
+
+    <div id="loginPage" data-role="page" class="container loginPage">
+
+      <div class="row" style="margin-left: 0;margin-right: 0;">
+        <div class="col-xs-12 headerLogo">
+          <div class="col-xs-6">
+            <img src="assets/img/sspm_logo.png" class="img img-responsive headerImg" alt="logo" />
+          </div>
+          <div class="col-xs-6">
+            <p class="headerText">
+              Aplicación de Verificación
+              <span style="color: rgba(0, 23, 52, 0.8);font-weight: 600;"> Infracciones de Transito</span>
+            </p>
+          </div>
         </div>
-        <div class="col-xs-6">
-          <p class="headerText">
-            Aplicación de Control de
-            <span style="color: rgba(0, 23, 52, 0.8);font-weight: 600;"> Parte Novedades</span>
-          </p>
+        <div class="col-xs-12">
+            <div class="wrap">
+                <form class="login" id="formLogin" role="form">
+                  <input type="text" name="NombreUsuario" id="NombreUsuario" class="form-control inputShadow" placeholder="Nombre de usuario" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$" required/>
+                  <input type="password" name="Contrasena" id="Contrasena" class="form-control inputShadow" placeholder="Contraseña" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" required/>
+                  <input type="submit" class="btn btn-sm btn-primary" value="Iniciar sesión" id="submitSesion"/>
+                </form>
+            </div>
         </div>
-      </div>
-      <div class="col-xs-12 text-center clearfix">
-        <button class="btn btn-primary btn-lg" id="btnInit">Acceder</button>
       </div>
     </div>
-
-	  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="cordova.js" type="text/javascript"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/snackbar.min.js"></script>
-    
-    <script type="text/javascript">
-      document.addEventListener("deviceready",onDeviceReady,false);
+    <script src="assets/js/app-login.js"></script>
 
-      function onDeviceReady() {
-
-        $('#btnInit').on('click touch', function(event) {
-
-          event.preventDefault();
-
-          var db = window.sqlitePlugin.openDatabase({name: "partenovedad.db"});
-
-          db.transaction(function(tx) {
-            tx.executeSql("SELECT * FROM parte_novedad;", 
-              [], 
-              function(tx, res) { 
-                var xhr = new XMLHttpRequest();
-                var url = "http://policiatijuana.gob.mx/";
-                xhr.addEventListener('readystatechange', state_change, true);
-                xhr.open("GET", url, true);
-                xhr.send(null);
-                
-                function state_change() {
-                   
-                  if (xhr.status === 200) {
-
-                    for(var i = 0; i < res.rows.length; i++) {
-
-                      $.ajax({
-                        method: 'POST',
-                        url: 'http://joshuaranda.com/sspm/partenovedad/',
-                        async: true,
-                        crossDomain: true,
-                        data: { 
-                          numIncidente: res.rows.item(i).numIncidente, 
-                          bajoReporte : res.rows.item(i).bajoReporte, 
-                          atiende     : res.rows.item(i).atiende, 
-                          fechaEvento : res.rows.item(i).fechaEvento, 
-                          horaReporte : res.rows.item(i).horaReporte, 
-                          horaLlegada : res.rows.item(i).horaLlegada, 
-                          calle       : res.rows.item(i).calle, 
-                          numeroIntExt: res.rows.item(i).numeroIntExt, 
-                          colonia     : res.rows.item(i).colonia, 
-                          calleIzquierda: res.rows.item(i).calleIzquierda, 
-                          calleDerecha  : res.rows.item(i).calleDerecha, 
-                          nombreReportante: res.rows.item(i).nombreReportante, 
-                          nombrePresunto  : res.rows.item(i).nombrePresunto, 
-                          reporteManifesta: res.rows.item(i).reporteManifesta, 
-                          huboSolucion    : res.rows.item(i).huboSolucion, 
-                          reporteAcuerdo  : res.rows.item(i).reporteAcuerdo, 
-                          presentaAnte    : res.rows.item(i).presentaAnte, 
-                          numeroReporte   : res.rows.item(i).numeroReporte, 
-                          numeroInfraccion: res.rows.item(i).numeroInfraccion, 
-                          matriculaOficial: res.rows.item(i).matriculaOficial, 
-                          numeroUnidad    : res.rows.item(i).numeroUnidad, 
-                          matriculaSuperior: res.rows.item(i).matriculaOficial
-                        },
-                        cache: false,        
-                        beforeSend: function(){ $(".loader").fadeOut("200").css("display", "block"); },
-                        success: function(data) {   
-                          $(".loader").css("display", "none");
-                          $.snackbar({
-                            content: "Parte novedad ingresada.", 
-                            timeout: 5000
-                          });         
-
-                          tx.executeSql('DROP TABLE IF EXISTS parte_novedad');
-                          //window.sqlitePlugin.deleteDatabase({name: "partenovedad.db"});
-                          window.location.href = "home.html";  
-                        },
-                        error: function(xhr, textStatus, errorThrown ) {
-                          $(".loader").css("display", "none");        
-                          if (xhr.status === 500) {
-                            $.snackbar({
-                              content: "Ocurrio un error, intentalo nuevamente", 
-                              timeout: 5000
-                            }); 
-                          } else {
-                            $.snackbar({
-                              content: "Ocurrio un error, posiblemente el servidor no responde", 
-                              timeout: 5000
-                            }); 
-                          }
-                        }
-                      });
-                    }
-                  } 
-                  window.location.href = "home.html";    
-                }
-              });      
-          });
-        });
-
-      }
+    <script type="text/javascript" charset="utf-8">
+      document.addEventListener("deviceready", onDeviceReady, false);
+      function onDeviceReady() { }
     </script>
   </body>
 </html>
