@@ -3,6 +3,8 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">    
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">    
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="assets/css/snackbar.min.css" rel="stylesheet" />
     <link href="assets/css/home.css" rel="stylesheet" />
@@ -108,6 +110,12 @@
 
         function openURL(url) {
           window.open(url, '_blank', 'location=yes');
+        }
+        //initialize
+        if(localStorage.getItem("LocalData") == null) {
+          var data = [];
+          data = JSON.stringify(data);
+          localStorage.setItem("LocalData", data);
         }
 
       }
