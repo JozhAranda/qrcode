@@ -104,7 +104,7 @@
           var html = "";
 
           for(var count = 0; count < data.length; count++) {
-            html = html + "<tr><td>" + data[count][0] + "</td><td><a href='"data[count][1] + "'?user=Jorge&pass=Patito1234' class='btn btn-primary btn-xs' target='_blank' location='yes'>" + data[count][1] + "</a></td></tr>";
+            html = html + "<tr><td>" + data[count][0] + "</td><td><a href='"data[count][1] + "'?user=Jorge&pass=Patito1234' class='btn btn-primary btn-xs' target='_blank' location='yes'>" + data[count][0] + "</a></td></tr>";
           }
 
           $("#qrTable tbody").append(html).closest("#qrTable").table("refresh").trigger("create");
