@@ -12,6 +12,10 @@ $(function() {
       beforeSend: function(){ $(".loader").fadeOut("200").css("display", "block");  },
       success: function(data) {           
         $(".loader").fadeOut("200").css("display", "none"); 
+        $.snackbar({
+          content: "Verificado", 
+          timeout: 5000
+        }); 
       },
       error: function(xhr, textStatus, errorThrown ) {
         if (textStatus == 'timeout') {
