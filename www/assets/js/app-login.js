@@ -3,7 +3,9 @@ $(function() {
   
     event.preventDefault();       
     
-    var dataLogin = $('#formLogin').serialize();
+    var dataLogin = JSON.parse($('#formLogin').serialize());
+    var usuario = $('#usuario').val();
+    var contrasena = $('#contrasena').val();
 
     $.ajax({
       method: 'POST',
@@ -14,7 +16,7 @@ $(function() {
       cache: false,
       beforeSend: function(){ $("#submitSesion").val('Iniciando...'); },
       success: function(data) {           
-        var token = "?user=" + encodeURIComponent($('#usuario').val()) + "&pass=" + encodeURIComponent($('#contrasena').val());
+        var token = "?user=" + encodeURIComponent(usuario) + "&pass=" + encodeURIComponent(contrasena);
         $("body").load("home.html").hide().fadeIn(1500).delay(6000);
         window.location.href = "home.html" + token;
       },
