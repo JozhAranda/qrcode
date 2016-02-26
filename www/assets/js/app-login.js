@@ -33,12 +33,12 @@ $(function() {
         $("#submitSesion").val('Iniciar sesión');       
         if (xhr.status == 500) {
           $.snackbar({
-            content: "Ocurrio un error, no desistas e intentalo nuevamente", 
+            content: "Ocurrió un error, no desistas e inténtalo nuevamente", 
             timeout: 5000
           }); 
         } else {
           $.snackbar({
-            content: "Usuario y/o contraseña son invalidas, intentalo nuevamente", 
+            content: "Usuario y/o contraseña son invalidas, inténtalo nuevamente", 
             timeout: 5000
           }); 
         }
