@@ -12,11 +12,11 @@ $(function() {
       url: 'http://soporte.policiatijuana.gob.mx:98/api/Login/',
       async: true,
       crossDomain: true,
+      cache: false,
       data: {
         'usuario': usuario,
         'contrasena': contrasena
       },
-      cache: false,
       beforeSend: function(){ $("#submitSesion").val('Iniciando...'); },
       success: function(data) {           
         var token = "?user=" + encodeURIComponent(usuario) + "&pass=" + encodeURIComponent(contrasena);
