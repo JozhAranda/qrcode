@@ -3,7 +3,7 @@ $(function() {
   
     event.preventDefault();       
     
-    var dataLogin = JSON.parse($('#formLogin').serialize());
+    //var dataLogin = $('#formLogin').serialize();
     var usuario = $('#usuario').val();
     var contrasena = $('#contrasena').val();
 
@@ -12,7 +12,10 @@ $(function() {
       url: 'http://soporte.policiatijuana.gob.mx:98/api/Login/',
       async: true,
       crossDomain: true,
-      data: dataLogin,
+      data: {
+        'usuario': usuario,
+        'contrasena': contrasena
+      },
       cache: false,
       beforeSend: function(){ $("#submitSesion").val('Iniciando...'); },
       success: function(data) {           

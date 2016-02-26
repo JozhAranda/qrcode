@@ -16,6 +16,7 @@ $(function() {
           content: "Verificado", 
           timeout: 5000
         }); 
+        alert(data);
       },
       error: function(xhr, textStatus, errorThrown ) {
         if (textStatus == 'timeout') {
