@@ -10,7 +10,7 @@ $(function() {
     $.ajax({
       method: 'POST',
       url: 'http://soporte.policiatijuana.gob.mx:98/api/Login/',
-      dataType: 'json',
+      dataType: 'jsonp',
       async: true,
       crossDomain: true,
       cache: false,
