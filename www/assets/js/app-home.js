@@ -5,7 +5,7 @@ $(function() {
     
     $.ajax({
       method: 'GET',
-      url: $(this).attr('href') + "?user=" + $('#user').val() + "&pass=" + $('#pass').val(),
+      url: 'http://soporte.policiatijuana.gob.mx:98/api/Verificador/' + "?iDevolucion=" + $(this).val() + "&usuario=" + $('#user').val() + "&contrasena=" + $('#pass').val(),
       async: true,
       crossDomain: true,
       cache: false,

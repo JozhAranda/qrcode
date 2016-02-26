@@ -7,14 +7,14 @@ $(function() {
 
     $.ajax({
       method: 'POST',
-      //url: 'http://soporte.policiatijuana.gob.mx:88/Api/Default1/',
+      url: 'http://soporte.policiatijuana.gob.mx:98/api/Login/',
       async: true,
       crossDomain: true,
       data: dataLogin,
       cache: false,
       beforeSend: function(){ $("#submitSesion").val('Iniciando...'); },
       success: function(data) {           
-        var token = "?user=" + encodeURIComponent($('#nombreUsuario').val()) + "&pass=" + encodeURIComponent($('#contrasena').val());
+        var token = "?user=" + encodeURIComponent($('#usuario').val()) + "&pass=" + encodeURIComponent($('#contrasena').val());
         $("body").load("home.html").hide().fadeIn(1500).delay(6000);
         window.location.href = "home.html" + token;
       },
