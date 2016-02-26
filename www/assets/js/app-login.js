@@ -3,20 +3,18 @@ $(function() {
   
     event.preventDefault();       
     
-    //var dataLogin = $('#formLogin').serialize();
+    var dataLogin = $('#formLogin').serialize();
     var usuario = $('#usuario').val();
     var contrasena = $('#contrasena').val();
 
     $.ajax({
       method: 'POST',
       url: 'http://soporte.policiatijuana.gob.mx:98/api/Login/',
+      dataType: 'json',
       async: true,
       crossDomain: true,
       cache: false,
-      data: {
-        'usuario': usuario,
-        'contrasena': contrasena
-      },
+      data: dataLogin,
       beforeSend: function(){ $("#submitSesion").val('Iniciando...'); },
       success: function(data) {           
         var token = "?user=" + encodeURIComponent(usuario) + "&pass=" + encodeURIComponent(contrasena);
@@ -24,7 +22,7 @@ $(function() {
         window.location.href = "home.html" + token;
       },
       error : function(xhr, textStatus, errorThrown ) {
-        if (textStatus == 'timeout') {
+        if (textStatus === 'timeout') {
           this.tryCount++;
           if (this.tryCount <= this.retryLimit) {
             $.ajax(this);
