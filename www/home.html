@@ -21,7 +21,7 @@
 
     <div class="row" style="margin-left: 0;margin-right: 0;">
       <div class="col-xs-12 headerLogo"style="margin: 30px 0 40px 0;">
-        <div class="col-xs-6">
+        <div class="col-xs-5">
           <img src="assets/img/sspm_logo.png" class="img img-responsive headerImg" alt="logo" />
         </div>
         <div class="col-xs-6">
@@ -30,22 +30,26 @@
             <span style="color: rgba(0, 23, 52, 0.8);font-weight: 600;"> Infracciones de Transito</span>
           </p>
         </div>
+        <div class="col-xs-1">         
+          <div class="dropdown">
+            <a href="#" id="logout" style="color: rgba(0, 23, 52, 0.8);font-weight: 600;text-decoration: underline;">Cerrar sesión</a>
+          </div>  
+        </div>
       </div>      
       <div class="container">
         <div class="col-xs-4 col-xs-offset-4" style="margin-top: 40px;">
-          <button class="btn btn-info btn-block" id="scan">Scan</button>
+          <button class="btn btn-primary btn-block" style="background:rgb(0, 23, 52);" id="scan">Escanear QR</button>
           <br/><br/>
-          <button class="btn btn-success btn-block" id="display">Display Data</button>
+          <button class="btn btn-success btn-block" id="display">Mostrar información</button>
           <input type="hidden" id="user"/>
-          <input type="hidden" id="pass" />
+          <input type="hidden" id="pass"/>
         </div>
         <div class="col-xs-8 col-xs-offset-2" style="margin-top: 40px;">
           <div class="table-responsive">
             <table class="table table-hover table-border" id="qrTable">
               <thead>
                 <tr>
-                  <th>Nombre</th>
-                  <th>Url</th>
+                  <th>Número de devolución</th>
                 </tr>
               </thead>
               <tbody></tbody>
@@ -73,7 +77,7 @@
             function (result) {
               if(!result.cancelled) {
                 if(result.format == "QR_CODE") {
-                  navigator.notification.prompt("#Boleta o Identificador", function(input) {
+                  navigator.notification.prompt("Número de devolución", function(input) {
                     var name = input.input1;
                     var value = result.text;
 
@@ -87,7 +91,7 @@
               }
             },
             function (error) {
-              alert("Lectura fallida: " + error);
+              alert("Escaneo fallido: " + error);
             }
           );
         });
@@ -103,10 +107,20 @@
           var html = "";
 
           for(var count = 0; count < data.length; count++) {
-            html = html + "<tr><td>" + data[count][0] + "</td><td><a href='" + data[count][1] + "' class='btn btn-primary btn-xs btnQr' target='_blank' location='yes'>" + data[count][0] + "</a></td></tr>";
+            html = html + "<tr style='margin: 5px 0;'><td>" + data[count][0] + "</td><td><a href='" + data[count][1] + "' class='btn btn-primary btn-xs btn-block btnQr'>" + data[count][0] + "</a></td></tr>";
           }
 
           $("#qrTable tbody").append(html).closest("#qrTable").table("refresh").trigger("create");
+        });
+
+        //clear cache
+        $('#logout').on('click touch', function(event) {
+          event.preventDefault();
+
+          localStorage.clear();
+
+          $("body").load("index.html").hide().fadeIn(1500).delay(6000);
+          window.location.href = "index.html";
         });
 
         //initialize
