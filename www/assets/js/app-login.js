@@ -10,7 +10,7 @@ $(function() {
     $.ajax({
       method: 'POST',
       url: 'http://soporte.policiatijuana.gob.mx:98/api/Login/',
-      dataType: 'jsonp',
+      dataType: 'json',
       async: true,
       crossDomain: true,
       cache: false,
@@ -24,7 +24,7 @@ $(function() {
       error : function(xhr, textStatus, errorThrown ) {
         if (textStatus === 'timeout') {
           this.tryCount++;
-          if (this.tryCount <= this.retryLimit) {
+          if (this.tryCount <= 2) {
             $.ajax(this);
             return;
           }            
