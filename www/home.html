@@ -106,9 +106,59 @@
 
           var html = "";
 
-          for(var count = 0; count < data.length; count++) {
+          /*for(var count = 0; count < data.length; count++) {
             html = html + "<tr style='margin: 5px 0;'><td>" + data[count][0] + "</td><td><button type='button' value='" + data[count][1] + "'class='btn btn-primary btn-xs btn-block btnQr'>" + data[count][0] + "</button></td></tr>";
+          }*/
+
+      /************************/
+          for(var count = 0; count < data.length; count++) {
+            $.ajax({
+              method: 'POST',
+              url: 'http://soporte.policiatijuana.gob.mx:98/api/Verificador/',
+              dataType: 'json',
+              data: {
+                'iDevolucion': data[count][1],
+                'usuario': $('#user').val(),
+                'contrasena': $('#pass').val()
+              },
+              async: true,
+              crossDomain: true,
+              cache: false,
+              beforeSend: function(){ $(".loader").fadeOut("200").css("display", "block"); },
+              success: function(data) {           
+                $(".loader").fadeOut("200").css("display", "none"); 
+                $.snackbar({
+                  content: "Verificado", 
+                  timeout: 5000
+                }); 
+                alert(data);
+              },
+              error: function(xhr, textStatus, errorThrown ) {
+                if (textStatus == 'timeout') {
+                  this.tryCount++;
+                  if (this.tryCount <= this.retryLimit) {
+                    $.ajax(this);
+                    return;
+                  }            
+                  return;
+                }  
+                $(".loader").fadeOut("200").css("display", "none");        
+                if (xhr.status == 500) {
+                  $.snackbar({
+                    content: "Ocurrió un error, no desistas e inténtalo nuevamente", 
+                    timeout: 5000
+                  }); 
+                } else {
+                  $.snackbar({
+                    content: "No se encontró un resultado, inténtalo nuevamente", 
+                    timeout: 5000
+                  }); 
+                }
+              }
+            });
           }
+      /************************/
+
 
           $("#qrTable tbody").append(html).closest("#qrTable").table("refresh").trigger("create");
         });
