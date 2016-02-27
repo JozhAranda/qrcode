@@ -107,7 +107,7 @@
           var html = "";
 
           for(var count = 0; count < data.length; count++) {
-            html = html + "<tr style='margin: 5px 0;'><td>" + data[count][0] + "</td><td><button value='" + data[count][1] + "' class='btn btn-primary btn-xs btn-block btnQr'>" + data[count][0] + "</button></td></tr>";
+            html = html + "<tr style='margin: 5px 0;'><td>" + data[count][0] + "</td><td><button type='button' value='" + data[count][1] + "'class='btn btn-primary btn-xs btn-block btnQr'>" + data[count][0] + "</button></td></tr>";
           }
 
           $("#qrTable tbody").append(html).closest("#qrTable").table("refresh").trigger("create");

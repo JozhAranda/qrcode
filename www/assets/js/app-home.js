@@ -1,15 +1,22 @@
 $(function() {
-  $('.btnQr').on('click touch', function(event) {
+  $('button.btnQr').on('click touch', function(event) {
   
     event.preventDefault();       
-    
+      
+
     $.ajax({
-      method: 'GET',
-      url: 'http://soporte.policiatijuana.gob.mx:98/api/Verificador/' + "?iDevolucion=" + $(this).val() + "&usuario=" + $('#user').val() + "&contrasena=" + $('#pass').val(),
+      method: 'POST',
+      url: 'http://soporte.policiatijuana.gob.mx:98/api/Verificador/',
+      dataType: 'json',
+      data: {
+        'iDevolucion': $(this).val(),
+        'usuario': $('#user').val(),
+        'contrasena': $('#pass').val()
+      },
       async: true,
       crossDomain: true,
       cache: false,
-      beforeSend: function(){ $(".loader").fadeOut("200").css("display", "block");  },
+      beforeSend: function(){ $(".loader").fadeOut("200").css("display", "block"); },
       success: function(data) {           
         $(".loader").fadeOut("200").css("display", "none"); 
         $.snackbar({
@@ -30,12 +37,12 @@ $(function() {
         $(".loader").fadeOut("200").css("display", "none");        
         if (xhr.status == 500) {
           $.snackbar({
-            content: "Ocurrio un error, no desistas e intentalo nuevamente", 
+            content: "Ocurrió un error, no desistas e inténtalo nuevamente", 
             timeout: 5000
           }); 
         } else {
           $.snackbar({
-            content: "Usuario y/o contraseña son invalidas, intentalo nuevamente", 
+            content: "No se encontró un resultado, inténtalo nuevamente", 
             timeout: 5000
           }); 
         }
