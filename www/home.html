@@ -39,7 +39,7 @@
       <div class="container">
         <div class="col-xs-4 col-xs-offset-4" style="margin-top: 40px;">
           <button class="btn btn-primary btn-block" style="background:rgb(0, 23, 52);" id="scan">Escanear QR</button>
-          <br/><br/>
+          <br/>
           <button class="btn btn-success btn-block" id="display">Mostrar información</button>
           <input type="hidden" id="user"/>
           <input type="hidden" id="pass"/>
@@ -49,7 +49,17 @@
             <table class="table table-hover table-border" id="qrTable">
               <thead>
                 <tr>
-                  <th>Número de devolución</th>
+                  <th>Marca</th>
+                  <th>Linea</th>
+                  <th>Modelo</th>
+                  <th>Color</th>
+                  <th>Serie</th>
+                  <th>Tipo</th>
+                  <th>Oficio</th>
+                  <th>Solicitante</th>
+                  <th>Recibo Infracción</th>
+                  <th>Recibo Médico</th>
+                  <th>Recibo Grua</th>
                 </tr>
               </thead>
               <tbody></tbody>
@@ -131,7 +141,20 @@
                   content: "Verificado", 
                   timeout: 5000
                 }); 
-                alert(data);
+
+                html += '<tr style="margin: 5px 0;"><td>'+ data.Marca +'</td>';
+                html += '<td>'+ data.Linea +'</td>';
+                html += '<td>'+ data.Modelo +'</td>';
+                html += '<td>'+ data.Color +'</td>';
+                html += '<td>'+ data.Serie +'</td>';
+                html += '<td>'+ data.Tipo +'</td>';
+                html += '<td>'+ data.Oficio +'</td>';
+                html += '<td>'+ data.Solicitante +'</td>';
+                html += '<td>'+ data.ReciboInfraccion +'</td>';
+                html += '<td>'+ data.ReciboMedico +'</td>';
+                html += '<td>'+ data.ReciboGrua +'</td></tr>';
+                
+                $("#qrTable tbody").append(html).closest("#qrTable").table("refresh").trigger("create");
               },
               error: function(xhr, textStatus, errorThrown ) {
                 if (textStatus == 'timeout') {
@@ -158,9 +181,7 @@
             });
           }
       /************************/
-
-
-          $("#qrTable tbody").append(html).closest("#qrTable").table("refresh").trigger("create");
+          //$("#qrTable tbody").append(html).closest("#qrTable").table("refresh").trigger("create");
         });
 
         //clear cache
