@@ -52,12 +52,3 @@ body {
   width: 100%;
   padding: 10px 15px 0;
 }
-.table-user-information > tbody > tr {
-    border-top: 1px solid rgb(221, 221, 221);
-}
-.table-user-information > tbody > tr:first-child {
-    border-top: 0;
-}
-.table-user-information > tbody > tr > td {
-    border-top: 0;
-}
